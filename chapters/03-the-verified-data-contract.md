@@ -1,120 +1,111 @@
 # Chapter 3 — The Verified-Data Contract
+*The one rule that separates a filter you can trust from a guess wearing the costume of one.*
 
-<!-- voice-anchored: root style/VOICE.md. Anatomy: TIKTOC Part 10.
-     Thin-pantry: sourced from modes/_shared.md, modes/README.md, DATA_CONTRACT.md,
-     CHAPTER-RESEARCH-MAP, and "What Is Computational Skepticism" / "The Limits of AI" essays.
-     Draft. Never published. -->
+There is a particular kind of wrong answer that is worse than no answer at all, and it is this: an answer that sounds right. Not obviously wrong. Not hedged or uncertain. Fluent, confident, plausible — and untrue.
 
-**What you'll be able to do:** State the one rule that governs every later chapter — run the script and read the audit *before* you prompt — and apply it to a real decision, labeling which part of an answer came from data and which from a model's judgment.
+I want to be precise about what I mean, because the distinction matters more here than almost anywhere else I can think of. A language model asked whether a particular Cambridge biotech sponsors work visas will not say "I don't know." It will say something like: "as a mid-size biotech competing for specialized talent, this company likely sponsors visas for research-focused roles." Every word of that sentence is defensible. The reasoning is plausible. The conclusion is probably true for a lot of companies in that description. And it is not a finding. It is the most coherent-sounding sentence the model could assemble from patterns in its training data — which is a completely different operation from looking at a record.
 
-## Learning outcomes
+The Department of Labor publishes every Labor Condition Application a U.S. employer files before hiring a foreign worker. The USCIS publishes H-1B approval and denial counts by employer. If you run a script against those records and ask the same question, you get a different kind of answer: this company filed fifteen LCAs in three years and had an 85% H-1B approval rate. Or you get zero filings, ever. The number is not the most plausible thing you could say — it is what actually happened, as far as the public record goes.
 
-- **(Understand)** State the prime directive and name the system's sources of truth.
-- **(Apply)** Run one mode end-to-end and record it in `RUN_LOG.md`.
-- **(Analyze)** Split a mixed claim into "from the data" and "from the model," labeling each.
+The whole architecture of this book is built on that distinction. One answer is fluent. The other is *true*. The discipline required to build on the second, and only the second, is what I mean by the verified-data contract.
 
-## Opening case — two ways to answer one question
+<!-- → [INFOGRAPHIC: Two-column side-by-side: left column labeled "Model's answer" shows the fluent prose sentence with no source; right column labeled "Verified answer" shows the LCA count, approval rate, and year, traced to DOL and USCIS records. Caption: "Same question. One answer is plausible. One is checkable."] -->
 
-You want to know whether a particular Cambridge biotech sponsors work visas. There are two ways to find out.
+## Why the contract is a single rule, not a set of guidelines
 
-The first: you ask a capable language model. In three seconds it tells you, in fluent and well-organized prose, that "as a mid-size biotech in a competitive talent market, this company likely sponsors visas for specialized roles, particularly in research." It sounds like a person who knows. It cites nothing, because it is not reading anything — it is producing the most plausible-sounding sentence, and plausible is not the same as true.
+I've seen job-search systems — and empirical systems of all kinds — that try to manage the fluency problem with caveats: add a disclaimer, note that the model might be wrong, invite the user to verify. This doesn't work, and it doesn't work for a specific reason. A caveat lives outside the output. It is a warning label on a product, not a change to what the product contains. If the number inside the output was produced by a language model filling in a plausible-sounding value, the caveat is decoration on a fabrication.
 
-The second: you query the public record. The Department of Labor publishes every Labor Condition Application an employer files to hire a foreign worker. The U.S. Citizenship and Immigration Services H-1B Employer Data Hub publishes approvals and denials by company and year. You run a script. It returns a number: this company filed fifteen LCAs in the last three years and had an 85% H-1B approval rate. Or it returns: zero filings, ever.
+The contract is different because it is a *prior constraint on what gets to enter the system at all*, not an advisory attached to what came out. The rule is stated once, in the shared configuration that every mode in this system reads before doing anything else: **Run the script and read the audit before you prompt. Never invent a count, a rate, or a coverage number.**
 
-One of those answers is fluent. One of them is *true*. The whole discipline of this book is the decision, made in advance and held without exception, to build on the second.
+That is it. One rule. The simplicity is intentional. Complex rules are negotiated; a one-rule contract is harder to quietly break. The model's role in this system is to help you *read* data — to frame a finding, identify what's interesting about a number, suggest what to look at next. It is not permitted to be the source of a number. Sources of truth in this system are specific things: script outputs, audit reports, logged runs. Not the model's best guess at what the number probably is.
 
-## What you need first
+## What the system actually measures, and where it lives
 
-From Chapter 1, the instinct that fluency is not evidence. From Chapter 2, the reason it matters here: you are going to *skip* real opportunities on the strength of this filter, so the filter cannot be a guess. A claim you would stake your search on has to rest on records.
+The verified-data contract is not a philosophy statement. It is enforced by the architecture. There are three subsystems that produce the numbers this book is built on, and each of them writes to auditable records you can read and question.
 
-## The prime directive
+<!-- → [DIAGRAM: Three boxes labeled SCRIPTS/sec/ (funding), SCRIPTS/ats/ (postings and liveness), SCRIPTS/bls/ (role quality), each with an arrow pointing to a corresponding *-audit.md output, all feeding into RUN_LOG.md. Caption: "The three pipelines and where their output lives — every number traces back through this graph."] -->
 
-Every mode in this system opens by reading a shared contract, `modes/_shared.md`, and that contract states one rule above all others. I will give it to you in the plainest form:
+`SCRIPTS/sec/` pulls from SEC filings to measure company funding. When a company raises a round or files material financials, that event is in the public record. The script finds it; the audit reports what was found and what was dropped. `SCRIPTS/ats/` queries job-board data to measure whether a company is actively posting and whether particular openings are live. `SCRIPTS/bls/` draws on Bureau of Labor Statistics data to assess role quality — compensation, demand trajectory, geographic concentration. Each subsystem writes an audit: a record of what the pipeline did on a given run, how many rows it processed, what coverage it achieved, what it couldn't match.
 
-> **Run the script and read the audit before you prompt. Never invent a count, a rate, or a coverage number.**
+`DATA_CONTRACT.md` defines what data exists and where it lives — including which files are private (your own application records, credentials, anything that identifies you personally) and how those are handled. `RUN_LOG.md` is the system's memory: every run leaves a trace, so a decision you make today on the strength of a number can be reconstructed and questioned tomorrow. This is the same practice good empirical work has always demanded — state your method, show your coverage, let a claim be checked.
 
-That is the verified-data contract. It sounds modest. It is the entire spine of the book. The reason a language model is dangerous as a *source* — as opposed to a tool — is precisely the thing it is best at: it will always give you a number, and the number will always sound reasonable, and it has no idea whether the number is real. The contract removes the model from the role of source and keeps it in the role of assistant. Counts and rates come from data. The model helps you *read* the data; it does not get to make the data up.
+## The smallest honest thing you can do right now
 
-### Where truth lives in this system
-
-The contract names specific sources of truth, and you should know them before you trust any output:
-
-- **`DATA_CONTRACT.md`** — defines what data exists, where it lives, and which files are private (your own application records and credentials, which never get committed or published without a privacy review).
-- **The `SCRIPTS/` subsystems** — `SCRIPTS/sec/` (funding), `SCRIPTS/ats/` (postings and liveness), `SCRIPTS/bls/` (role quality). These produce the numbers.
-- **The `*-audit.md` reports** — written records of what a pipeline actually did on a given run: how many rows, what coverage, what was dropped. You read the audit, not your hopes.
-- **`RUN_LOG.md`** — the system's memory. Every run leaves a trace, so that a decision made today can be reconstructed and questioned tomorrow.
-
-This is the same ethic that good empirical work has always demanded, transplanted into a job search: state your method, show your coverage, and let a claim be checked. A fluent answer that cannot be checked is not a finding. It is a guess wearing the costume of one.
-
-## A runnable command
-
-The smallest honest thing you can do is run one verification and read what it reports. The repository ships a pipeline-verification script for exactly this:
+Before you understand every component, before the sponsorship pipeline and the ATS scraper and the funding detector are fully built, there is one thing you can do that establishes the contract in practice rather than just in principle. Run a verification:
 
 ```bash
-# From the project root — confirm the ATS pipeline's data is internally consistent
 npm run ats:verify
 ```
 
-This calls `SCRIPTS/ats/verify-pipeline.mjs`, which checks the tracker and scan data for consistency and prints what it found. The point of running it now, before you understand every component, is to feel the difference between *being told* the data is fine and *seeing the check pass*. The output is the audit. The audit, not your confidence, is the evidence.
+This calls `SCRIPTS/ats/verify-pipeline.mjs`, which checks the tracker and scan data for internal consistency and prints what it found. The output is the audit. I want you to run this not because you need the result yet, but because there is a specific feeling I want you to have: the difference between being told the data is fine and *seeing the check pass*. One of those is someone's word. The other is evidence. The contract is the decision to require the second.
 
-## Worked example — the same question, both ways, side by side
+<!-- → [TABLE: Three columns — Pipeline, What it verifies, What the audit reports. Rows: ats:verify / tracker-scan consistency / row counts, coverage, drop reasons; sec:verify / filing-record completeness / companies matched, date range, gaps; bls:verify / role-quality data freshness / series IDs, last update, missing occupations. Caption: "The three verification commands and what each audit tells you."] -->
 
-**Situation.** The Cambridge biotech from the opening.
+## The seam where fluency sneaks back in
 
-**The command run, and the output inspected.** You run the sponsorship pipeline against the DOL LCA and USCIS H-1B records (built fully in Chapter 5). It returns: 15 LCA filings over three years; H-1B approval rate 85%; most recent filing within the last year.
+Here is the error I want to warn you about specifically, because it is not obvious and it catches almost everyone, including me when I'm moving fast. You run the script. The script returns a real number — fifteen filings, 85% approval rate, sourced to DOL records. Now you hand that number to a language model and ask it to interpret the finding. The model says: "fifteen filings over three years is strong for a company of this size in this sector."
 
-**The model's version, for contrast.** Asked cold, the model said "likely sponsors… particularly in research." No number. No year. No source.
+Did the model count anything? No. It estimated. It applied a pattern from its training data about what "strong" looks like for biotechs of similar size — a pattern it cannot actually show you, because it does not know what the pattern is, only that the output sounds reasonable. The moment an unsourced judgment re-enters through interpretation, the contract has been quietly broken. You ran the script, which was right. You then let the model paper over a gap in the reading, which was wrong.
 
-**The decision.** The two answers happen to agree in direction — but only one of them can be *defended* to a skeptical version of yourself, and only one would survive being wrong. You record the verified numbers and the source; you discard the fluent paragraph.
+The discipline required is to watch the seam between the data and the reading of the data. Data claim: fifteen filings, 85% approval rate, sourced to DOL/USCIS. Model judgment: this is strong for a company of this type. Both are present in that paragraph. Only the first can be defended against scrutiny. The second is permitted — it is genuinely useful — but it has to be *labeled as judgment*, not dressed as a fact derived from counting.
 
-**The lesson (one sentence):** When data and a model's guess agree, trust the data — and when they disagree, the disagreement is the most useful thing on the screen.
+For any sentence in a system output, one question settles it: could this sentence have been produced by counting records? If yes, it must trace to a script output or an audit report. If it cannot be traced, it is not allowed to stand. If no — if it is a reading, a framing, a suggestion — it is model judgment, and it is allowed, but it must be visible as such.
 
-**The limit (where this fails):** The records have coverage gaps. A company can sponsor and not appear in the window your data covers; a name can fail to match because "Google LLC," "Google Inc," and "Alphabet" are three strings for one firm. The contract does not promise the data is complete. It promises you will not paper over the gaps with invention — you will label them as gaps.
+<!-- → [INFOGRAPHIC: Decision tree — "Could this sentence have been produced by counting records?" Yes branch leads to "Data claim: must trace to script output or audit." No branch leads to "Model judgment: allowed, but must be labeled." Both branches end at "Is the label visible in the output?" Caption: "The one-question test for every sentence in a mixed output."] -->
 
-## Mid-chapter checkpoint
+## What the data can't tell you
 
-Here is the error that catches almost everyone, including me. You run the script, you get a real number, and then — while interpreting it — you let the model fill a small hole: "the script found 15 filings; the model says that's strong for a company this size." Did the model *count* anything? No. It estimated. The moment an unsourced number re-enters through interpretation, the contract has been quietly broken. Watch the seam between the data and the reading of it. That seam is where fluency sneaks back in.
+The contract guarantees that counts and rates are real. It does not guarantee that the right things were measured. This is a distinction the contract cannot collapse for you, and I want to be honest about where it leaves you.
 
-## Decision rule — data claim vs. model judgment
+The data knows a company filed fifteen LCAs. It does not know that all fifteen were for one senior scientist role that was filled and will not open again. It knows an approval rate; it does not know that the company was acquired last month and the sponsorship policy changed last week. A name-matching failure — "Google LLC," "Google Inc," "Alphabet" — can make a prolific sponsor look like a non-filer. A company can sponsor and stay below the detection threshold if they filed in a window your data doesn't cover.
 
-For any sentence in an output, ask: *could this have been produced by counting records?*
+The contract stops you from building on fiction. It does not give you omniscience. What it gives you is a floor: you know the numbers you have are real, and you know where the gaps are, because the audit reported them instead of hiding them. A 94%-accurate system can still harm someone systematically if no one asks what it failed to measure. The contract makes you the person who asks that question — not the model, not the system, you. The gaps it reports are your honest starting debt: claims you currently cannot source, labeled as such, waiting for better data.
 
-- **Yes** → it is a **data claim**. It must trace to a script output or an audit. If it can't, it is not allowed to stand.
-- **No** → it is a **model judgment** (a reading, a framing, a suggestion). It is allowed — but it must be *labeled as judgment*, never dressed as a fact.
+<!-- → [TABLE: Two columns — What the contract guarantees / What the contract cannot guarantee. Rows include: counts and rates are real / that the right things were measured; gaps are labeled not hidden / that coverage is complete; decisions trace to auditable records / that the records captured the full picture; model judgments are labeled / that those judgments are correct. Caption: "The floor the contract provides and the ceiling it doesn't claim to reach."] -->
 
-Every later chapter applies this one rule. Sponsorship tier: data. "This is a strong tier for your field": judgment. Keep them visibly separate.
+## The shape of everything that follows
 
-## What the machine could not know
+Every chapter from here forward builds one of the three sources of truth or shows you how to read what they produce. Chapter 4 builds the funding detector — SEC filings, round size, recency, the money that forces companies to hire. Chapter 5 builds the sponsorship pipeline. Chapter 6 builds the posting liveness check. Each of them opens by reading the shared contract, each of them writes to an audit, each of them contributes a line to the run log.
 
-The contract guarantees the numbers are real. It cannot tell you whether the *right* numbers were measured. The data knows a company filed fifteen LCAs; it does not know that those filings were all for one senior role they will never offer a new graduate. It knows an approval rate; it does not know the company was just acquired last month and the policy changed yesterday. Verified data is a floor, not a ceiling — it stops you from building on fiction, and then it hands the situated judgment back to you. A 94%-accurate system can still harm someone if no one asks what it failed to measure.[^limits] The contract makes you that someone.
+The prime directive is already set: run the script and read the audit before you prompt. Never invent a count, a rate, or a coverage number. From here, the work is building the scripts worth running.
+
+The one question I haven't fully answered yet: of all the companies in the world, which ones just got the money that forces them to hire? That's where we go next — and the answer, it turns out, is sitting in a federal filing database, waiting to be counted.
+
+---
 
 ## Exercises
 
-1. **(Apply) Run and log.** Run `npm run ats:verify` (or any mode against real data). Read the output. Write a `RUN_LOG.md` entry: what you ran, what it reported, and one thing the audit told you that you would otherwise have assumed.
-2. **(Analyze) Split the claim.** Take a mixed statement — e.g., "This well-funded startup probably sponsors and would be a great culture fit." Break it into its data claims and its model judgments. Label each. Note which ones you currently have no source for.
-3. **(Apply) Find a coverage gap.** Name one company you believe sponsors that might *not* appear in public LCA/H-1B data, and say why (timing, name mismatch, role type). Write how you would label that uncertainty rather than guess past it.
+**Warm-up**
 
-## AI use / verified-data disclosure
+1. *(Recall, easy)* State the prime directive in your own words — not the exact phrasing, but the principle it enforces. What two-step sequence does it require before any model prompt, and what does each step accomplish?
+   *Tests whether you can articulate the contract without reciting it verbatim.*
 
-This chapter is itself the disclosure policy for the whole book. Method judgments here (what counts as a source of truth, the seam where fluency re-enters) are the author's framework. The verification command is real and ships in the repo. The "94%-accurate system, three patients harmed" illustration is drawn from an uploaded essay and is used as a parable, not a cited case study — see footnote.
+2. *(Identify, easy)* Name the three script subsystems in this chapter and the source of truth each one draws from. What does each pipeline write as its output?
+   *Tests whether you've mapped the architecture to its actual data sources.*
 
-## Chapter summary — capabilities gained
+3. *(Recall, easy)* What is `RUN_LOG.md` for, and why does the system require it rather than just trusting that you remember what you ran?
+   *Tests the reasoning behind the audit trail, not just its existence.*
 
-You can state the prime directive, name the system's sources of truth, run one verification end-to-end and log it, and split any mixed claim into data and judgment with each labeled. You now have the rule that lets you trust a filter enough to skip on it. The next three chapters build the first sources of truth the filter will read — starting with the money.
+**Application**
 
-## Key terms
+4. *(Apply, moderate)* Run `npm run ats:verify`. Read the output. Write a `RUN_LOG.md` entry covering: what you ran, what the audit reported, and one thing the output told you that you would otherwise have assumed without evidence.
+   *Tests the transition from knowing the contract to executing it.*
 
-- **Verified-data contract:** run the script and read the audit before you prompt; never invent counts, rates, or coverage.
-- **Source of truth:** a script output or audit a claim can be traced to — as opposed to a model's plausible sentence.
-- **Audit (`*-audit.md`):** the written record of what a pipeline actually did on a run; the evidence you read instead of trusting.
-- **Data claim vs. model judgment:** could it have been produced by counting records? If yes, it must trace to data; if no, it must be labeled judgment.
+5. *(Analyze, moderate)* Take this sentence: "This well-funded Series B startup probably sponsors visas and would be a strong culture fit for someone with your background." Break it into its data claims and its model judgments. Label each. For each data claim, name the source it would need to trace to. For each model judgment, note whether it is labeled as judgment in the original sentence.
+   *Tests the data-claim vs. model-judgment distinction on a realistic example.*
 
-## Bridge question
+6. *(Apply, moderate)* Name one company you believe sponsors H-1B visas that might not appear in the public LCA/USCIS data — and explain why (recent acquisition, name-matching failure, filing timing, role type). Write one sentence describing how you would label that gap in an output rather than guessing past it.
+   *Tests coverage-gap reasoning: what to do when the contract can't give you the answer.*
 
-The contract is set, and it demands a source of truth to read. So build the first one: of all the companies in the world, which ones just got the money that forces them to hire?
+**Synthesis**
 
-## Run-log prompt
+7. *(Synthesize, harder)* A colleague proposes adding a fourth data source to the system: LinkedIn profile counts per company as a proxy for growth. Walk through the contract requirements this would need to satisfy before the system could treat those counts as verified data rather than model-estimated data. What would the script, the audit, and the run-log entry each need to contain?
+   *Tests whether you can apply the contract's architecture to a novel source.*
 
-Record the verification you ran, its reported output, and one assumption the audit corrected. Note any claim you currently cannot source — that list is your honest starting debt.
+8. *(Synthesize, harder)* Consider the seam problem described in the chapter — verified numbers re-entering interpretation as unsourced estimates. Design a simple output-formatting convention (a label, a section header, a field name — your choice) that would make the data-claim / model-judgment boundary visible to someone reading a system output who hasn't read this chapter. Justify your design choice.
+   *Tests whether you can operationalize the distinction, not just state it.*
 
-[^limits]: The "94%-accurate clinical system that still harmed three patients / skepticism as the safety mechanism" illustration is from "The Limits of AI: What the Tools Cannot Do" (uploaded essay, N. Bear Brown). Used illustratively. **[verify]** if cited as a real case.
+**Challenge**
+
+9. *(Evaluate, open-ended)* The chapter states that a 94%-accurate system can still harm someone systematically if no one asks what it failed to measure. Construct one realistic failure scenario in the job-search context — a specific type of company, candidate, or role — where the verified-data contract would pass all three of its checks (real counts, labeled gaps, audited runs) and still produce a systematically misleading result. What would a fifth check look like that catches this failure?
+   *Tests whether you can find the limits of the contract itself, not just apply it correctly.*
