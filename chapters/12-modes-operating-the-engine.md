@@ -1,46 +1,37 @@
 # Chapter 12 — Modes: Operating the Engine
+*The fluent surface from Chapter 1 has come back, this time wearing the engine's own uniform.*
 
-<!-- voice-anchored: root style/VOICE.md. Anatomy: TIKTOC Part 10.
-     Sourced from modes/ (README, _shared, scan/pipeline/oferta/tracker/pdf etc.), SDD, CHAPTER-RESEARCH-MAP.
-     Draft. Never published. -->
+Here is a failure mode worth understanding before you run anything. You invoke a mode called `oferta` to evaluate a role. It returns a confident assessment: sponsorship looks strong, fit is solid, the composite is above threshold, you should apply. The output reads exactly like the verified findings you've trusted all book — sourced factors, labeled judgments, a traceable recommendation. But under the hood, something has changed. This run never called the sponsorship pipeline. It never read an audit. It asked a language model what it thought and dressed the guess in the format of a finding. You can't tell from the output. That's the whole danger.
 
-**What you'll be able to do:** Run the engine through its modes as a verified-data runtime — scan, pipeline, evaluate, render — logging every step, and tell an active mode that runs real scripts from a draft mode that has quietly become "ask the model what it thinks."
+The difference between a mode that *runs a script and reads an audit* and a mode that *quietly becomes a chat prompt* is the difference between the entire method working and the entire method failing silently. This chapter is about telling them apart — not once, but every time you run the engine.
 
-## Learning outcomes
+## What a mode is
 
-- **(Apply)** Operate a `scan → pipeline → oferta` sequence end to end.
-- **(Analyze)** Distinguish active modes from draft modes, and check whether a mode calls real scripts before trusting it.
+The engine's runtime lives in a directory called `modes/`. A mode is a named operation you invoke, and each one declares what scripts it calls, what data it reads, and what it logs. The declaration is not decorative. It is the thing you verify. A mode that calls no scripts and reads no audits is producing model judgment, not findings — and the output format will not tell you which one you're looking at.
 
-## Opening case — the mode that stopped running scripts
+Every mode opens by loading `modes/_shared.md`, the contract from Chapter 3. The contract is supposed to make the runtime honest by construction: every output labeled, every source named, every judgment flagged. Your job is to confirm, run by run, that it actually is.
 
-You run a mode called `oferta` to evaluate a role. It returns a confident assessment: sponsorship looks strong, fit is good, you should apply. It reads exactly like the verified output you've trusted all book. But under the hood, something has changed: this run never called the sponsorship pipeline, never read an audit. It asked a language model what it thought, and dressed the guess in the format of a finding. You can't tell from the output — that's the whole danger. The fluent surface from Chapter 1 has come back, this time wearing the engine's own uniform.
+The modes split into two groups, and understanding the split is the chapter's load-bearing insight.
 
-The difference between a mode that *runs a script and reads an audit* and a mode that *quietly turns into a chat prompt* is the difference between the entire method working and the entire method failing silently. Act Three begins by learning to tell them apart.
+**Active modes** are the ones that do verified work. `scan` detects the ATS and pulls the company's current postings. `pipeline` runs the scoring pass — sponsorship, fit, liveness, timeline — against the pulled data. `oferta` assembles the four factors into the composite from Chapter 9 and returns a sourced Apply/Consider/Skip recommendation. `tracker` logs decisions across the search (Chapter 13). `pdf` renders the ATS-safe résumé (Chapter 11). These modes call real scripts. They read real audits. Their outputs are findings.
 
-## What you need first
+**Draft and helper modes** are scaffolds — `apply`, `contacto`, `deep`, `followup`, `interview-prep`, `ofertas`, `project`, `training`, and others. They can be useful. But until you have confirmed, on a specific run, that a given draft mode calls scripts and writes a log, you treat its output as model judgment. Not worthless. Not a finding.
 
-All five components (Chapters 4–11) and the verified-data contract (Chapter 3). You'll work in the `modes/` directory and write to `RUN_LOG.md`. Every mode opens by loading `modes/_shared.md` — the contract — so the runtime is supposed to be honest by construction. Your job is to verify that it actually is, run by run.
+<!-- → [TABLE: Two-column table listing active modes vs. draft/helper modes. Active column: scan, pipeline, oferta, tracker, pdf — with one-line description of what each calls. Draft column: apply, contacto, deep, followup, interview-prep, ofertas, project, training — with the label "verify before trusting" for each. Caption: "The split is not permanent — a draft mode that you verify runs scripts becomes trustworthy. The taxonomy is about evidence, not hierarchy."] -->
 
-## The subsystem this chapter rests on
+The taxonomy is not a permanent ranking. A draft mode you have verified is trustworthy for that run. An active mode that has been edited without your knowledge might not be. The classification is always about what the mode did on this run, not what it is named.
 
-The `modes/` directory is the engine's runtime: a set of named operations you invoke, each declaring what scripts it calls and what it logs. They fall into two groups.
-
-- **Active modes** — the ones that do verified work: **`scan`** (detect ATS, pull postings), **`pipeline`** (run the scoring pipeline), **`oferta`** (evaluate one role/offer into a composite), **`tracker`** (log decisions; Chapter 13), **`pdf`** (render the ATS-safe résumé; Chapter 11). These call real scripts and read real audits.
-- **Draft / helper modes** — scaffolds that may *not* yet call scripts: e.g., `apply`, `contacto`, `deep`, `followup`, `interview-prep`, `ofertas`, `project`, `training`. They can be useful, but until you've confirmed a draft mode runs scripts and logs, you treat its output as a model judgment, not a finding.
-
-This taxonomy is itself an application of the contract: a mode is trustworthy only insofar as it can show its work.
-
-## Core content — the run-inspect-record loop
+## The loop
 
 Operating the engine is one loop, repeated:
 
 1. **Run** an active mode against a real target.
-2. **Inspect** its output *and its provenance* — did it call the script? Is there an audit? Which numbers came from data and which are judgments?
+2. **Inspect** the output *and its provenance* — did it call the script? Is there an audit? Which numbers trace to records and which are labeled judgments?
 3. **Record** the run in `RUN_LOG.md` — what you ran, what it returned, what you decided.
 
-The loop is deliberately boring, and the boredom is the safety. Each pass leaves a trace, so a decision can be reconstructed and questioned later (the contract's "run log as memory" from Chapter 3). The moment you skip the inspect step — accepting a mode's output because it looks right — you've reopened the fluency trap.
+The loop is deliberately boring, and the boredom is the safety. Each pass leaves a trace. A decision made three weeks ago can be reconstructed, questioned, and updated when new information arrives. The moment you skip the inspect step — accepting a mode's output because it looks right, because the format is familiar, because the recommendation matches what you hoped — you've reopened the fluency trap. The surface was the danger in Chapter 1. It is still the danger in Chapter 12.
 
-## A runnable command — a full sequence
+## A full sequence, end to end
 
 Take one role from URL to evaluation:
 
@@ -48,7 +39,7 @@ Take one role from URL to evaluation:
 # 1. scan — detect the ATS and pull the company's current postings
 npm run ats:scan
 
-# 2. pipeline — score the pulled roles (sponsorship, fit, liveness, timeline)
+# 2. pipeline — score the pulled roles
 #    (run via the pipeline mode / auto-pipeline)
 
 # 3. oferta — evaluate one role into a composite + Apply/Consider/Skip
@@ -58,59 +49,89 @@ npm run ats:scan
 npm run ats:verify
 ```
 
-The inspectable output is the chain: a scan result (postings + ATS), a pipeline scoring pass, an `oferta` composite with sourced factors, and a verification audit confirming consistency. You read each link's provenance, not just its conclusion.
+Four commands. Four links in a chain. What you read is the chain — not just the final recommendation, but each link's provenance. The scan result tells you which ATS was detected and which postings were pulled. The pipeline pass shows the four scored factors with their source labels. The `oferta` composite traces each term to its origin. The verification audit confirms the underlying data is consistent. A recommendation without its provenance is just an opinion in a formatted box.
 
-## Worked example — one target, fully operated
+## One target, fully operated
 
-**Situation.** A single role URL at a Likely-tier startup.
+Let me make the loop concrete. A single role URL at a Likely-tier startup.
 
-**The sequence run, each step logged.** `scan` detects Lever and pulls the posting. The `pipeline` pass scores it — sponsorship from the join, fit from CV-vs-JD (labeled judgment), liveness live, timeline factor 0.8. `oferta` returns a composite above threshold → Consider. `ats:verify` confirms the underlying data is consistent. Each step gets a `RUN_LOG.md` line: command, key output, provenance.
+`scan` detects Lever and pulls the current posting. The posting is nine days old, description is specific, company hiring count has changed since last week — the liveness signal from Chapter 6 is clean.
 
-**The decision.** Consider → you compare it against your other Considers (Chapter 13's tracker) before spending an application slot.
+The `pipeline` pass scores the role. Sponsorship probability from the LCA and H-1B join: 0.65 — Likely tier, not Proven. Fit from CV-vs-JD comparison: 0.72 — a model judgment, labeled as such. Liveness: live. Timeline factor: 0.8, from the reader's OPT expiration and estimated processing window.
 
-**The lesson (one sentence):** Operating the engine is running active modes in a loop and inspecting provenance at every step — the runtime is only as honest as your habit of checking it.
+`oferta` assembles the composite. Sponsorship at Likely (0.65) carries less weight than Proven (0.9) would. Fit is reasonable. The multipliers hold. The composite lands above threshold but not comfortably — the recommendation is **Consider**, not Apply.
 
-**The limit (where this fails):** Modes can drift. A draft mode added later, or an active mode edited, can stop calling scripts without announcing it. The runtime doesn't enforce honesty on its own — your inspect-and-log habit does. Automation makes the loop fast; it does not make it self-policing.
+`ats:verify` runs. The data is internally consistent. No flag.
 
-## Mid-chapter checkpoint
+`RUN_LOG.md` gets one entry: the command sequence, the composite with each factor labeled by source, the recommendation, and a one-line decision: *Compare against other Considers before spending an application slot.*
 
-The error that ends the method quietly: trusting a mode by its *name* rather than its *behavior*. "It's called `oferta`, so it must be evaluating with real data." Names are labels; behavior is evidence. Before you trust any mode — especially a draft one — confirm it calls the script and writes the log on *this* run. A mode that used to be active can become a chat prompt with one careless edit, and the output will look identical.
+That's the whole loop. What makes it different from just reading the recommendation is the inspect step — knowing that the sponsorship term is 0.65 not 0.9, knowing why the composite landed on Consider rather than Apply, knowing which factor would have to improve to push it across the threshold. The recommendation is the headline. The provenance is the argument.
 
-## Decision rule — trust this mode's output?
+<!-- → [DIAGRAM: Flow diagram showing scan → pipeline → oferta → verify as four sequential boxes, each with a "provenance checkpoint" annotation (e.g., "ATS detected, postings list," "four factors with source labels," "composite with traced terms," "consistency audit"). Arrow at the end pointing to RUN_LOG.md. Caption: "The chain is only as trustworthy as its weakest provenance link — the verify step confirms consistency, not correctness."] -->
 
-- **Active mode, provenance visible (script called, audit present):** treat as a finding; record and act.
-- **Draft/helper mode, or provenance absent:** treat as a model judgment; useful for drafting, not for a skip/apply decision, until you verify it runs scripts and logs.
-- **Any mode whose output you can't trace:** distrust the output, not your confusion (Chapter 9's rule), and re-run with inspection.
+## The failure that looks like success
 
-## What the machine could not know
+The error that ends the method quietly: trusting a mode by its name rather than its behavior.
 
-The runtime can execute and log. It cannot know that today's scan hit a stale cache and pulled a posting that closed yesterday, or that a model-judgment fit score is confidently wrong for a role that needs exactly your unusual background. The loop guarantees you *can* see provenance; it cannot guarantee you *will* draw the right conclusion from it. The engine runs the components; the decision about whether a given run is trustworthy enough to act on remains the human's — every single time.
+"It's called `oferta`, so it must be evaluating with real data." Names are labels. Behavior is evidence. A mode can be edited — by you, by a collaborator, by a future version of the system — so that it stops calling its script and starts generating plausible-sounding output from the model's priors. The output format stays the same. The sourced-factors layout stays the same. The Apply/Consider/Skip recommendation stays the same. Nothing in the presentation tells you that the sponsorship probability now comes from the model's sense of what a good biotech sponsorship probability should be rather than from an LCA record.
+
+The inspect step is the only protection. On every run of every mode you plan to trust, you confirm: did it call the script? Is there an audit? Can I trace the sponsorship number to a record?
+
+If you can't answer yes to those questions, the output is a model judgment. It may be useful. It may even be accurate. But it is not a finding, and you should not make a Skip or Apply decision on its basis.
+
+<!-- → [TABLE: Decision matrix — three rows: "Active mode, provenance visible (script called, audit present)," "Draft/helper mode, or provenance absent," "Any mode whose output you can't trace." For each: treatment (finding / model judgment / distrust the output), action (record and act / useful for drafting, not for decisions / re-run with inspection). Caption: "The mode's name is not the evidence. The provenance is the evidence."] -->
+
+## What the loop cannot do
+
+The run-inspect-record loop guarantees you *can* see provenance. It cannot guarantee you will draw the right conclusion from what you see.
+
+Today's scan might have hit a stale cache and returned a posting that closed yesterday — the data is real, but the world has moved. The fit score of 0.72 might be confidently wrong for a role where your unusual project background is exactly what the team needs and no keyword in the job description captured it. The timeline factor rests on an estimate of processing time that the system cannot verify against the actual adjudication queue.
+
+The engine runs the components and surfaces the evidence. The decision about whether a given run is trustworthy enough to act on is yours, every time. Automation makes the loop fast. It does not make it self-policing. A method that runs itself without a human in the inspect step is not the method.
+
+## The shape of what the book has built
+
+This is the chapter where all five components run together for the first time. Sponsorship detection (Chapter 5), liveness classification (Chapter 6), role quality (Chapter 7), timeline (Chapter 8), the composite scorer (Chapter 9) — each one producing a number with a labeled source, each number flowing into the oferta composite, each composite going into the run log as a traceable decision.
+
+The engine is not complicated. It is thorough. The sophistication is not in the architecture; it is in the habit of inspection. You can run the whole sequence in under ten minutes for a single role. What takes discipline is doing the inspect step every time instead of shortcutting to the recommendation because the format looks familiar.
+
+Running the engine produces decisions. A decision you can't reconstruct is one you can't learn from — and learning from the search is the subject of what comes next.
+
+---
 
 ## Exercises
 
-1. **(Apply) Run a full sequence.** Take one real role and run `scan → pipeline → oferta`, logging each step in `RUN_LOG.md` with its provenance. Confirm with `ats:verify`.
-2. **(Analyze) Audit a draft mode.** Pick one draft/helper mode and determine whether it calls real scripts and logs. Write your verdict: finding-grade or judgment-grade?
-3. **(Analyze) Catch a drift.** Describe how you would notice if an active mode stopped calling its script — what in the output or the log would tip you off?
+**Warm-up**
 
-## AI use / verified-data disclosure
+1. *(Recall, easy)* Name the five active modes and describe in one sentence what each one does. Then name three draft/helper modes and explain what "verify before trusting" means in practice for each.
+   *Tests whether you can articulate the active/draft distinction before applying it.*
 
-Active modes call real scripts (`SCRIPTS/ats/`, the scoring pipeline) and read audits; their outputs are findings. Draft/helper modes may rely on model judgment and are labeled as such until verified. The active/draft taxonomy is from the `modes/` directory and the system design document. No mode's output should be treated as verified without visible provenance — that is the chapter's whole point.
+2. *(Recall, easy)* List the three steps of the run-inspect-record loop. For each step, write one sentence describing what you are confirming and why skipping that step reopens the fluency trap.
+   *Tests whether you understand the loop as a safety mechanism, not just an operating procedure.*
 
-## Chapter summary — capabilities gained
+3. *(Identify, easy)* What is provenance, and why does a composite recommendation without it reduce to an opinion in a formatted box? Give one example from the `oferta` output of what provenance looks like and what its absence would look like.
+   *Tests whether you can distinguish a finding from a well-formatted guess.*
 
-You can operate the engine as a verified-data runtime — running active modes in the run-inspect-record loop, logging every step, and separating findings from judgments by provenance rather than by a mode's name. Running the engine produces decisions. Decisions are only worth making if you can see whether they worked.
+**Application**
 
-## Key terms
+4. *(Apply, moderate)* Run a full `scan → pipeline → oferta → verify` sequence on one real target role. Log each step in `RUN_LOG.md` with the command, key output, and provenance. Write the final recommendation with each of its four factors labeled by source type.
+   *Tests the transition from understanding the sequence to executing it on live data.*
 
-- **Mode:** a named engine operation that declares the scripts it calls and what it logs.
-- **Active vs. draft mode:** active modes run verified scripts (scan, pipeline, oferta, tracker, pdf); draft modes may not yet — verify before trusting.
-- **Run-inspect-record loop:** run an active mode, inspect output *and provenance*, record in `RUN_LOG.md`.
-- **Provenance:** the traceable origin of an output — which script, which audit — that makes it a finding rather than a guess.
+5. *(Analyze, moderate)* Pick one draft or helper mode you haven't verified. Run it and inspect the output for provenance signals: did it call a script, is there an audit, can you trace any number to a record? Write your verdict — finding-grade or judgment-grade — and explain the specific evidence that drove the classification.
+   *Tests the verify-before-trusting discipline on a mode that doesn't announce its status.*
 
-## Bridge question
+6. *(Analyze, moderate)* Describe how you would detect that an active mode has drifted — stopped calling its script without announcing it. What would be present in a genuine active-mode run that would be absent in a drifted run? What is the earliest point in the inspect step where you would catch the failure?
+   *Tests adversarial reasoning about mode drift as a realistic failure mode.*
 
-The engine runs and produces decisions. But a decision you don't track is a decision you can't learn from. How do you log every choice — including the skips — and read the result as a health check on the whole search?
+**Synthesis**
 
-## Run-log prompt
+7. *(Synthesize, harder)* The chapter argues that the run-inspect-record loop's safety comes from the inspect step, not from the automation. Construct a scenario in which the loop runs correctly — scripts called, audit present, log written — but produces a confidently wrong recommendation. Identify which component's input was bad, trace how the error propagated through the composite, and describe what the run log would and would not tell you about the failure.
+   *Tests whether you understand the loop as necessary but not sufficient for correct decisions.*
 
-Record the full `scan → pipeline → oferta` sequence: the command at each step, the key output, its provenance, and the resulting recommendation.
+8. *(Synthesize, harder)* The `modes/_shared.md` contract is supposed to make the runtime honest by construction. Describe two ways the contract could fail — not because it is written incorrectly, but because the runtime doesn't enforce it. For each failure, write the specific `RUN_LOG.md` entry that would expose the problem and the one you would see if you weren't inspecting carefully.
+   *Tests whether you can reason about contract enforcement as a behavioral property, not just a textual property.*
+
+**Challenge**
+
+9. *(Evaluate, open-ended)* Design a lightweight audit protocol — taking no more than two minutes per run — that would reliably catch the three most likely failure modes of the run-inspect-record loop: mode drift, stale cache data, and a mislabeled model judgment treated as a record. For each failure mode, specify the exact check, the observable signal that indicates failure, and the corrective action. Then identify which of the three is hardest to catch and explain why.
+   *Tests whether you can reason about the loop's failure surface as an engineering problem with practical constraints.*
