@@ -14,18 +14,17 @@ This appendix collects the rules that keep those two needs aligned.
 
 Every operating artifact has two customers:
 
-1. **Agents** that read skills, scripts, data contracts, and gate definitions in
+1. **Agents** that read recipes, scripts, data contracts, and gate definitions in
    order to execute work.
 2. **Humans** who must understand what those agents do, why the workflow is
    safe, and when to intervene.
 
-Skills and recipes should be written primarily for agents, but each should begin
-with a human-readable executive summary. The summary should explain what the
-skill does, what evidence it uses, what risk remains, and what outcome to
+Recipes should be written primarily for agents, but each should begin
+with a human-readable executive summary. The summary should explain what the recipe does, what evidence it uses, what risk remains, and what outcome to
 expect.
 
 The overall system should also be compiled into human-readable documentation:
-`README.md`, `docs/repo-structure.md`, `docs/skills.md`, `DATA_CONTRACT.md`, and
+`README.md`, `docs/repo-structure.md`, `docs/recipes.md`, `DATA_CONTRACT.md`, and
 related guides. A human should not have to read every low-level recipe to
 understand the engine.
 
@@ -40,7 +39,7 @@ Use structure by function:
 - `data/` — verified local data, exports, metadata, generated datasets, and
   audits.
 - `scripts/` — tested, vetted, reusable automation.
-- `skills/` — agent-readable operating recipes with human-readable summaries.
+- `recipes/` — agent-readable operating recipes with human-readable summaries.
 - `chapters/` — manuscript content.
 - `slides/` — optional teaching decks.
 - `pantry/` — research notes, source notes, and reference material.
@@ -105,9 +104,9 @@ The standard gate sequence is:
 
 If a gate has no failure path, it is not a gate. It is decoration.
 
-## Skill Rules
+## Recipe Rules
 
-Every skill should include:
+Every recipe should include:
 
 1. executive summary;
 2. required reads;
@@ -119,13 +118,13 @@ Every skill should include:
 8. logging rules;
 9. stop conditions.
 
-A skill should not say "automated" unless a maintained script or tested command
+A recipe should not say "automated" unless a maintained script or tested command
 exists. Prefer "not implemented yet" over pretending the system can do more than
 it can verify.
 
 ## Logging Rules
 
-Use `skills/RUN_LOG.md` when a skill:
+Use `logs/RUN_LOG.md` when a recipe:
 
 - runs a script against real data;
 - creates or updates an audit or report;

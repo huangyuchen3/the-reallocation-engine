@@ -54,7 +54,7 @@ Core recipes (the operating surface): `_shared.md`, `scan.md`, `pipeline.md`, `o
 4. No recipe has ever completed a logged run; the honest run is outstanding. **(open)**
 5. ~~`npm run doctor` is planned, not built.~~ **RESOLVED (2026-06-13)** — `scripts/doctor.mjs`: checks tools, npm command-target existence, domain dirs, and a recipe-status dashboard (frontmatter coverage, status counts, declared-vs-body TODO mismatch). `--strict` exits 1 on a missing tool/target.
 6. ~~Person-named recipes embed student names/IDs…~~ **RESOLVED (2026-06-13)** — 14 case studies anonymized to `case-*.md`; names + Canvas submission-IDs scrubbed in working tree **and** purged from git history (`git filter-repo`). Re-attach anonymized sources before they ship.
-7. Book manuscript says "skill"; repository says "recipe" — terminology reconciliation pending. **(open)**
+7. ~~Book manuscript says "skill"; repository says "recipe".~~ **RESOLVED (2026-06-14)** — agentic "skill" → "recipe" across the manuscript (chs 3, 4, 14, 15, 16, 98 + `outline.md`); O*NET / résumé "skills" left as job competencies. Ch.14 retitled "Recipes: Operating the Engine" (filename slug kept). **Still open:** companion/derivative artifacts (key-terms, exercises, anki, cli, etc.) and `docs/` still use the old term — pending a regen pass.
 8. ~~Only 7 of 42 recipes carry lifecycle frontmatter; declared `todos_open` undercounts body `[TODO` markers.~~ **RESOLVED (2026-06-13)** — all 42 recipes now carry `status`/`todos_open`/`last_gate`/`attestation`/`recipe_version`; `todos_open` reconciled to the true body count (declared 518 = body 518; run `npm run doctor`).
 
 ## Privacy

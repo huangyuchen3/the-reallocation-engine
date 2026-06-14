@@ -1,7 +1,7 @@
 # Chapter 15 — The Pipeline Tracker and the Skip Rate
 
 <!-- voice-anchored: root style/VOICE.md. Anatomy: TIKTOC Part 10.
-     Sourced from SDD Component 5, plain-summary (skip rate ≥50%, 3-3-2), skills/tracker.md,
+     Sourced from SDD Component 5, plain-summary (skip rate ≥50%, 3-3-2), recipes/tracker.md,
      "The 3-3-2 Split" essay, CHAPTER-RESEARCH-MAP. Privacy note: data/ats/ files are private (DATA_CONTRACT). Draft. Never published. -->
 
 Imagine running the entire engine — scanning, scoring, framing, applying — and keeping no record of any of it. You'd have no response rate. No way to know whether Proven-tier applications outperform Unknown-tier ones. No signal that three weeks in, you've quietly drifted back to eight hours of clicking Submit. You'd be flying with no instruments, feeling busy, learning nothing. The decisions would still happen; you just couldn't see whether any of them worked, or correct course when they didn't.
@@ -22,12 +22,12 @@ The skip is not an absence in the log. It is a decision, and a tracker that logs
 
 ---
 
-The component that makes this legible is the Pipeline Tracker, the engine's fifth component, maintained through the `tracker` skill and analyzed with the patterns script:
+The component that makes this legible is the Pipeline Tracker, the engine's fifth component, maintained through the `tracker` recipe and analyzed with the patterns script:
 
 ```bash
-# Maintain / update the decision log (tracker skill writes data/ats/applications.md)
+# Maintain / update the decision log (tracker recipe writes data/ats/applications.md)
 npm run ats:scan        # feeds new postings into the pipeline for decisions
-# tracker skill: log each decision (company, role, score, tier, timeline flag, outcome incl. skip)
+# tracker recipe: log each decision (company, role, score, tier, timeline flag, outcome incl. skip)
 
 # Analyze tracker/scan/pipeline data for patterns and the allocation summary
 python scripts/ats/analyze-patterns.py

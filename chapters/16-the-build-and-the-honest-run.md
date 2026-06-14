@@ -15,11 +15,11 @@ You don't ask the AI to "build a job-search engine." You conduct it through phas
 
 **Phase two: core skeleton.** The data structures and the five component stubs. The AI writes the schemas; you confirm they encode your situation. A schema that doesn't distinguish Proven from Likely sponsorship tiers, or that treats your timeline as a preference rather than a gate, is wrong in a way the AI cannot detect from the inside.
 
-**Phase three: integration.** Wiring the five components into the composite scorer from Chapter 11 and the skills from Chapter 14. The AI connects the pieces; you verify that liveness and timeline act as multipliers — gates that zero the score — and not as weighted votes. This is the class of error that will look exactly like correct behavior. The code will run. The numbers will be in a plausible range. Only you know that a role expiring before you can start shouldn't score "Consider."
+**Phase three: integration.** Wiring the five components into the composite scorer from Chapter 11 and the recipes from Chapter 14. The AI connects the pieces; you verify that liveness and timeline act as multipliers — gates that zero the score — and not as weighted votes. This is the class of error that will look exactly like correct behavior. The code will run. The numbers will be in a plausible range. Only you know that a role expiring before you can start shouldn't score "Consider."
 
 **Phase four: full feature build.** The pipelines — SEC, ATS, BLS — the framing generator, the résumé renderer. The AI builds each component; you verify each against its real dataset. "The SEC pipeline returns company funding records" is a verification you can run. "The SEC pipeline looks complete" is not.
 
-**Phase five: hardening.** Error handling, the verification scripts, the audit trail. The AI implements; you decide what "correct" means for your search and what must never fail silently. A skill that stops calling its script and starts generating plausible output from the model's priors — the failure Chapter 14 opens with — is the thing hardening is designed to catch.
+**Phase five: hardening.** Error handling, the verification scripts, the audit trail. The AI implements; you decide what "correct" means for your search and what must never fail silently. A recipe that stops calling its script and starts generating plausible output from the model's priors — the failure Chapter 14 opens with — is the thing hardening is designed to catch.
 
 **Phase six: release.** The first real run.
 
@@ -114,7 +114,7 @@ The search is live. The clock is running. Begin.
    *Tests the plausibility-auditing discipline as a behavioral practice, not a one-time check.*
 
 6. *(Analyze, moderate)* Run `npm run ats:scan` and `npm run ats:liveness` on at least five real companies. Record the output with full provenance for each role (ATS detected, liveness classification, source of each signal). Identify one role where the liveness classification surprised you and explain what additional check resolved the ambiguity.
-   *Tests the active-skill inspection habit from Chapter 14, applied at the first real run.*
+   *Tests the active-recipe inspection habit from Chapter 14, applied at the first real run.*
 
 **Synthesis**
 

@@ -7,7 +7,6 @@ next:
   - "Define the run-envelope schema in recipes/pipeline.md (unblocks scorer feeds + the honest run)"
   - "Complete one honest, logged, gated end-to-end run (gap #4)"
   - "Confirm the scorer [VERIFY] defaults (role_quality weight, Consider-band floor) vs docs/search-profile-design.md"
-  - "Reconcile terminology: the book says 'skill', the repo says 'recipe' (gap #7)"
 blocked_by: null
 ---
 
@@ -28,9 +27,8 @@ _Read this first for current state._ `DOMAIN.md` = what the repo **is**; `logs/R
 ## Open questions / decisions pending
 - **Run-envelope schema** is still `[TODO: DEFINE]` in `recipes/pipeline.md` — blocks wiring the Ch.7–10 evidence feeds into the scorer.
 - **Scorer `[VERIFY]` defaults:** the `role_quality` weight and the Consider-band floor reproduce the book but are not pinned by Ch.11 — confirm against `docs/search-profile-design.md` before using for real decisions.
-- **Terminology (gap #7):** the book says "skill," the repo says "recipe" — unreconciled.
 
 ## Recently done (2026-06-14)
-- Decluttered the root; dual-licensed (MIT code / CC BY 4.0 book); set up large-file handling (samples + gitignore + a pre-commit size guard, documented in `DATA.md`); added the CLI-agnostic AI tooling guide and a repo audit under `docs/`.
+- Decluttered the root; dual-licensed (MIT code / CC BY 4.0 book); set up large-file handling (samples + gitignore + a pre-commit size guard, documented in `DATA.md`); added the CLI-agnostic AI tooling guide and a repo audit under `docs/`; reconciled agentic "skill" → "recipe" across the manuscript (gap #7).
 
 _Update this file at the end of each working session: state, decisions, next actions. Keep it short — it's the current-state file, not a log._
