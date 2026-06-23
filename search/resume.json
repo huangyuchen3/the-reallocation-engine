@@ -1,0 +1,162 @@
+{
+  "attested": true,
+  "attested_date": "2026-06-23",
+  "attestation_note": "Attested by Yu-Chen Huang. Every claim here survived my review. Corrected errors are listed below; the percentage metrics in work highlights are my own rough estimates (see metrics_disclosure), not formal measurements.",
+  "corrected_errors": [
+    "1) PROJECT OWNERSHIP: the E3 Database System was written in solo voice ('Built', 'Developed', 'Applied') but it was actually a 5-person group project for Northeastern's DAMG6210 (repo: github.com/Fxhj0501/DAMG6210). Reframed as team work; my part was schema design and stored procedures.",
+    "2) PROJECT ORIGINALITY: the IPL Data Analysis project was presented like original engineering, but it was a guided learning project built by following a YouTube tutorial (per the repo README). Relabeled as a learning/tutorial project.",
+    "3) DATE TYPO: the E3 project start read 'Step 2024' on the resume; corrected to September 2024 (2024-09).",
+    "4) SKILLS PROVENANCE: R, PostgreSQL, MySQL, Docker, and CI/CD were listed as if job-proven; they actually come from coursework (e.g. Network Structures and Cloud Computing, Data Management and Database Design). Evidence relabeled to 'coursework'.",
+    "5) METRICS: the percentages in my work highlights (95%, 99.9% SLA, 40%, 60%, 50%, 25%) are rough estimates I made, not measured figures. Disclosed in metrics_disclosure so I never present them as precise."
+  ],
+  "metrics_disclosure": "The percentage figures in work[].highlights are my own approximate estimates of impact, not formally measured numbers. I can explain my reasoning behind each, but they should be read as 'approximately', not as audited metrics.",
+  "basics": {
+    "name": "Yu-Chen Huang",
+    "phone": "(341) 333-9099",
+    "email": "yhuang0617@berkeley.edu",
+    "location": "Seattle, WA",
+    "links": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/yhuang0617/" },
+      { "label": "GitHub", "url": "https://github.com/yhuang497" },
+      { "label": "LeetCode", "url": "https://leetcode.com/u/yhuang497/" }
+    ]
+  },
+  "education": [
+    {
+      "school": "Northeastern University",
+      "degree": "M.S. Information Systems",
+      "gpa": "3.84/4.0",
+      "start": "2024-09",
+      "end": "2026-08",
+      "coursework": [
+        "Network Structures and Cloud Computing",
+        "Data Management and Database Design",
+        "Application Engineering and Development",
+        "Data Science Engineering Methods and Tools",
+        "Program Structure and Algorithms"
+      ]
+    },
+    {
+      "school": "University of California, Berkeley",
+      "degree": "B.S. Environmental Economics and Policy",
+      "gpa": "3.46/4.0",
+      "start": "2021-08",
+      "end": "2023-05"
+    }
+  ],
+  "certifications": [
+    { "name": "AWS Certified Data Engineer Associate", "issuer": "Amazon Web Services", "year": "2025", "url": "https://www.credly.com/earner/earned/badge/77e170d4-7b57-4e72-8c31-23d0e6fbf2a7" },
+    { "name": "AWS Certified Solutions Architect - Associate", "issuer": "Amazon Web Services", "year": "2024", "url": "https://www.credly.com/badges/54ddb70e-84bf-46d5-a5ff-3b792e1202a2" },
+    { "name": "AWS Certified Cloud Practitioner", "issuer": "Amazon Web Services", "year": "2024", "url": "https://www.credly.com/badges/5116423d-ab92-4851-8fb8-640238f69f38/public_url" },
+    { "name": "Google Advanced Data Analytics Certificate", "issuer": "Google (Coursera)", "year": "2023", "url": "https://www.coursera.org/account/accomplishments/specialization/certificate/JA92LPGAT9X2" },
+    { "name": "Google Data Analytics Certificate", "issuer": "Google (Coursera)", "year": "2023", "url": "https://www.coursera.org/account/accomplishments/specialization/certificate/FZZ3WULYRH5N" }
+  ],
+  "skills": [
+    { "name": "Python", "evidence": "Tesla, IBM, Nielsen pipelines" },
+    { "name": "SQL", "evidence": "IBM, Nielsen, E3 project" },
+    { "name": "Java", "evidence": "E3 Database System project (GUI/CRUD) — team project" },
+    { "name": "Oracle", "evidence": "IBM ETL pipelines and schema optimization" },
+    { "name": "AWS", "evidence": "Nielsen (S3, Redshift); 3 AWS certifications" },
+    { "name": "Spark", "evidence": "Tesla (Spark Structured Streaming); IPL learning project (PySpark)" },
+    { "name": "Kafka", "evidence": "Tesla near real-time KPI pipeline" },
+    { "name": "Airflow", "evidence": "Tesla pipelines (DAGs, retries)" },
+    { "name": "FastAPI", "evidence": "Tesla AD group sync pipeline" },
+    { "name": "Tableau", "evidence": "Tesla, Nielsen reporting" },
+    { "name": "Microsoft SQL Server", "evidence": "E3 Database System project (team)" },
+    { "name": "Git", "evidence": "project repositories" },
+    { "name": "HTML/CSS/JavaScript", "evidence": "Tesla reporting workflow (HTML/CSS)" },
+    { "name": "R", "evidence": "coursework" },
+    { "name": "PostgreSQL", "evidence": "coursework" },
+    { "name": "MySQL", "evidence": "coursework" },
+    { "name": "Docker", "evidence": "coursework" },
+    { "name": "CI/CD", "evidence": "coursework" }
+  ],
+  "work": [
+    {
+      "company": "Tesla",
+      "title": "Data Engineer Intern",
+      "employment_type": "internship",
+      "location": "Fremont, CA",
+      "start": "2025-09",
+      "end": "2026-01",
+      "highlights": [
+        "Developed end-to-end reporting workflow using Python, Airflow, and HTML/CSS to distribute ML-evaluated sentiment and performance summaries with Tableau analytics links, enhancing weekly CSAT transparency across 50+ leaders",
+        "Designed AD group sync pipeline using Python and FastAPI to parse HR data and update distribution lists automatically, cutting manual maintenance time by 95% and reducing IT workload",
+        "Built near real-time KPI pipeline using Kafka, Spark Structured Streaming, and Airflow to ingest and transform service event data, enabling sub-5-minute latency reporting across 20+ downstream applications",
+        "Refactored and productionized ETL pipelines using Python, Airflow, and Spark, implementing data validation, logging, and automated retry mechanisms; reduced data discrepancies from 8% to 1% and improved pipeline reliability to 99.9% SLA"
+      ],
+      "evidence": "offer letter / pay stub (private)"
+    },
+    {
+      "company": "IBM",
+      "title": "Data Engineer Intern",
+      "employment_type": "internship",
+      "location": "Taipei, Taiwan",
+      "start": "2025-07",
+      "end": "2025-08",
+      "highlights": [
+        "Built scalable ETL pipelines using SQL and Oracle to process over million+ financial records daily for batch reporting systems",
+        "Optimized Oracle schemas using partitioning and indexing for scalable batch ingestion, cutting storage overhead by 40%",
+        "Orchestrated ETL workflows in Trinity by designing modular DAGs, ensuring timely execution of 100% of daily batch jobs",
+        "Automated data validation workflows with Python and SQL, ensuring 100% data integrity and compliance with banking standards"
+      ],
+      "evidence": "offer letter (private)"
+    },
+    {
+      "company": "Nielsen",
+      "title": "Data Analyst, Media",
+      "employment_type": "full-time",
+      "location": "Remote",
+      "start": "2023-11",
+      "end": "2024-06",
+      "highlights": [
+        "Developed ETL pipelines in Python and SQL to process large-scale survey data, improving data ingestion efficiency by 50%",
+        "Engineered survey data models and transformation scripts, enabling accurate forecasting using Statsmodels and Pandas",
+        "Implemented data partitioning strategies in S3 and optimized storage formats, resulting in 60% reduction in data processing costs",
+        "Integrated Redshift warehouse data into Tableau using custom SQL, enabling real-time tracking across 10+ media campaigns"
+      ],
+      "evidence": "offer letter / pay stub (private)"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Electronic Entertainment Expo Database System",
+      "affiliation": "Northeastern University (DAMG6210)",
+      "type": "group project",
+      "team_size": 5,
+      "my_role": "Schema design and stored procedures",
+      "url": "https://github.com/Fxhj0501/DAMG6210",
+      "start": "2024-09",
+      "end": "2024-12",
+      "summary": "5-person team project. The team built a 10+ table relational database in MS SQL Server (100K+ records with indexing, triggers, stored procedures), applied 3NF normalization to reduce storage by ~25%, and developed a Java GUI for CRUD operations with Power BI visualizations.",
+      "skills": ["Microsoft SQL Server", "Java", "Power BI", "SQL"]
+    },
+    {
+      "name": "IPL Data Analysis on Databricks",
+      "type": "guided learning project (followed a YouTube tutorial)",
+      "team_size": 1,
+      "url": "https://github.com/yhuang497/IPL-DE-Project",
+      "start": "2024-06",
+      "end": "2024-06",
+      "summary": "Self-study project built by following a YouTube tutorial: an Apache Spark ETL pipeline on AWS S3 using PySpark for 100K+ IPL records, advanced SQL (joins, subqueries, aggregations, window functions), and 5+ visualizations with Matplotlib and Seaborn.",
+      "skills": ["Spark", "PySpark", "AWS S3", "SQL", "Matplotlib", "Seaborn"]
+    }
+  ],
+  "languages": [
+    { "name": "Mandarin Chinese", "level": "Native" },
+    { "name": "Taiwanese", "level": "Native" },
+    { "name": "English", "level": "Proficient" }
+  ],
+  "interests": [
+    "Stock Market Analysis",
+    "Blogging about Desserts",
+    "Road Trip Photography",
+    "Swimming",
+    "Kayaking",
+    "LeetCode Practice (https://leetcode.com/u/yhuang497/)"
+  ],
+  "extraction_notes": [
+    "MINOR — CONFIRM CERT URLS: the two Coursera links are assigned Advanced Data Analytics -> JA92LPGAT9X2 and Data Analytics -> FZZ3WULYRH5N; swap if I mapped them backwards.",
+    "MINOR — EMAIL: still using the berkeley.edu address — fine to keep, but consider a neutral personal email for applications."
+  ]
+}
