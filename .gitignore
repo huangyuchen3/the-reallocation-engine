@@ -69,9 +69,8 @@ data/BLS/db_30_2_mysql/
 resume.json
 
 # Setup Exercise — Personal Search Layer (INFO 7375)
-# The three artifacts are the graded submission and MUST be tracked.
-# Only private-notes.md (raw self-assessment) stays out of git.
-!search/resume.json
+# profile.yml + gaps.md may be tracked; résumé stays local (PII — doctor fails if tracked).
+search/resume.json
 search/private-notes.md
 search/*-original.pdf
 search/resume-original.*

@@ -6,6 +6,16 @@ Use this file to record what was run, what worked, what failed, and what should
 be tested next. Keep entries short. Do not include secrets, real phone numbers,
 private emails, or sensitive application notes.
 
+## 2026-06-30 - case-de-platform-cogpivot worked run (Yu-Chen Huang)
+
+- **Recipe:** `case-de-platform-cogpivot` v0.1.0 · **Status:** RUNNABLE-SAMPLE
+- **Inputs:** DataStax Inc, Coursera Inc, Deako Inc (from DE keyword filter on `SEC_DOL_H1b_data_mapped.csv`); SOC 15-1243 BLS pivot rows; `search/profile.yml`; Coursera Greenhouse URL for liveness test
+- **Commands:** `grep` DE filter (70 companies) · `grep 15-1243` BLS compact · `npm run score` (5 roles) · `npm run ats:liveness` (active + expired break test)
+- **Outputs:** `recipes/case-de-platform-cogpivot.md` · `assignments/submissions/yuchen-huang/domain-justification.md` · `assignments/submissions/yuchen-huang/worked-run.md`
+- **Result:** Apply 2 (DataStax, Coursera), Consider 1 (Deako, Likely tier), Skip 2 (no H-1B control; expired posting liveness gate made composite 0). Skip rate 40%. Cognitive pivot verified from BLS but composite weight is still 0 in default scorer.
+- **Open issues:** `[TODO: DEV]` DE title filter script; `[TODO: DEV]` platform/pipeline JD classifier; pin `role_quality` weight; DataStax Greenhouse board had 0 open jobs when I checked; scorer needs JSON profile shim (YAML profile not parsed by scorer).
+- **Privacy (2026-06-30):** I removed `search/resume.json` from git tracking (file still on my laptop). Updated `.gitignore` so `npm run doctor` passes before mode PR. Resume is not in assignment zip or PR.
+
 ## 2026-06-23 — Setup Exercise: built my personal search layer (Yu-Chen Huang)
 
 - **Recipe:** manual (Setup Exercise — Your Search's Personal Layer; agent-led extraction + intake, my attestation)
