@@ -6,6 +6,16 @@ Use this file to record what was run, what worked, what failed, and what should
 be tested next. Keep entries short. Do not include secrets, real phone numbers,
 private emails, or sensitive application notes.
 
+## 2026-07-24 - Reallocation Engine Audited submission package (Yu-Chen Huang)
+
+- **Recipe / mode:** `case-de-platform-cogpivot` + Ch.11 `npm run score` (assignment audit layer)
+- **Branch:** `assignment/reallocation-audited`
+- **Inputs:** `assignments/submissions/yuchen-huang/reallocation-audited/fixtures/roles.json` + `profile-sponsor-required.json` (same 5-role sample as 2026-06-30 worked run)
+- **Commands:** `npm run score -- … --out-dir …/reallocation-audited/outputs`
+- **Outputs:** `Huang_Yu-Chen_ReallocationEngine.md` · `frictional-journal.md` · `video-script.md` · `README.md` · `outputs/role-scores.{md,json}`
+- **Result:** Apply 2 · Consider 1 · Skip 2 (skip 40%); audit report covers GIGO, bias, explainability critique (role_quality weight 0), Pearl three rungs, adversarial cases, hard-stop gate; AI disclosure included
+- **Open issues:** video still to record; human must Approve/Flag/Block before any real application; `role_quality` weight still unpinned; DE title-filter TODO still open
+
 ## 2026-06-30 - case-de-platform-cogpivot worked run (Yu-Chen Huang)
 
 - **Recipe:** `case-de-platform-cogpivot` v0.1.0 · **Status:** RUNNABLE-SAMPLE

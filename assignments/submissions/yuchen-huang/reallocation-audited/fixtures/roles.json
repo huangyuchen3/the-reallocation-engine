@@ -1,0 +1,52 @@
+[
+  {
+    "role_id": "datastax-platform",
+    "company": "DataStax Inc",
+    "title": "Software Engineer - Data Platform",
+    "sponsorship": { "p": 0.9, "tier": "Proven", "source": "record" },
+    "role_quality": { "p": 0.787, "source": "record" },
+    "fit": { "p": 0.72, "source": "model-judgment" },
+    "liveness": { "factor": 1.0, "source": "record" },
+    "timeline": { "factor": 0.9, "source": "your-input" }
+  },
+  {
+    "role_id": "coursera-de-live",
+    "company": "Coursera Inc",
+    "title": "Data Engineer (representative)",
+    "sponsorship": { "p": 0.9, "tier": "Proven", "source": "record" },
+    "role_quality": { "p": 0.725, "source": "record" },
+    "fit": { "p": 0.68, "source": "model-judgment" },
+    "liveness": { "factor": 1.0, "source": "record" },
+    "timeline": { "factor": 0.9, "source": "your-input" }
+  },
+  {
+    "role_id": "deako-de-ii",
+    "company": "Deako Inc",
+    "title": "Data Engineer II",
+    "sponsorship": { "p": 0.65, "tier": "Likely", "source": "record" },
+    "role_quality": { "p": 0.725, "source": "record" },
+    "fit": { "p": 0.75, "source": "model-judgment" },
+    "liveness": { "factor": 1.0, "source": "record" },
+    "timeline": { "factor": 0.9, "source": "your-input" }
+  },
+  {
+    "role_id": "no-sponsor-control",
+    "company": "Example Corp (no H-1B record)",
+    "title": "Data Engineer",
+    "sponsorship": { "p": 0.0, "tier": "None", "source": "record" },
+    "role_quality": { "p": 0.787, "source": "record" },
+    "fit": { "p": 0.7, "source": "model-judgment" },
+    "liveness": { "factor": 1.0, "source": "record" },
+    "timeline": { "factor": 0.9, "source": "your-input" }
+  },
+  {
+    "role_id": "coursera-ghost",
+    "company": "Coursera Inc",
+    "title": "Data Engineer (expired posting)",
+    "sponsorship": { "p": 0.9, "tier": "Proven", "source": "record" },
+    "role_quality": { "p": 0.725, "source": "record" },
+    "fit": { "p": 0.7, "source": "model-judgment" },
+    "liveness": { "factor": 0.0, "source": "record" },
+    "timeline": { "factor": 0.9, "source": "your-input" }
+  }
+]

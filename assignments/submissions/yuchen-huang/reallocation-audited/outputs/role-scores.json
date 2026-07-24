@@ -1,0 +1,273 @@
+{
+  "_scorer": "bayesian-role-scorer",
+  "_chapter": 11,
+  "generated": "2026-07-24",
+  "config": {
+    "weights": {
+      "sponsorship": 0.35,
+      "fit": 0.3,
+      "role_quality": 0
+    },
+    "apply_threshold": 0.3,
+    "consider_floor": 0.2,
+    "gate_zero": 0.05,
+    "soft_sponsorship_tiers": [
+      "likely",
+      "possible",
+      "unknown"
+    ]
+  },
+  "profile_needs_sponsorship": true,
+  "roles": [
+    {
+      "role_id": "datastax-platform",
+      "company": "DataStax Inc",
+      "title": "Software Engineer - Data Platform",
+      "composite": 0.4779,
+      "recommendation": "Apply",
+      "machine_recommendation": "Apply",
+      "reason": "composite 0.478 ≥ 0.3, gates healthy",
+      "override": null,
+      "trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.9,
+            "weight": 0.35,
+            "contribution": 0.315,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.72,
+            "weight": 0.3,
+            "contribution": 0.216,
+            "source": "model-judgment"
+          },
+          {
+            "factor": "role_quality",
+            "value": 0.787,
+            "weight": 0,
+            "contribution": 0,
+            "source": "record"
+          }
+        ],
+        "vote_sum": 0.531,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 0.9,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 0.9,
+        "arithmetic": "(0.9·0.35 + 0.72·0.3 + 0.787·0) × 1 × 0.9 = 0.478"
+      }
+    },
+    {
+      "role_id": "coursera-de-live",
+      "company": "Coursera Inc",
+      "title": "Data Engineer (representative)",
+      "composite": 0.4671,
+      "recommendation": "Apply",
+      "machine_recommendation": "Apply",
+      "reason": "composite 0.467 ≥ 0.3, gates healthy",
+      "override": null,
+      "trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.9,
+            "weight": 0.35,
+            "contribution": 0.315,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.68,
+            "weight": 0.3,
+            "contribution": 0.204,
+            "source": "model-judgment"
+          },
+          {
+            "factor": "role_quality",
+            "value": 0.725,
+            "weight": 0,
+            "contribution": 0,
+            "source": "record"
+          }
+        ],
+        "vote_sum": 0.519,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 0.9,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 0.9,
+        "arithmetic": "(0.9·0.35 + 0.68·0.3 + 0.725·0) × 1 × 0.9 = 0.467"
+      }
+    },
+    {
+      "role_id": "deako-de-ii",
+      "company": "Deako Inc",
+      "title": "Data Engineer II",
+      "composite": 0.4072,
+      "recommendation": "Consider",
+      "machine_recommendation": "Consider",
+      "reason": "above threshold (0.407) but one soft spot: sponsorship tier \"Likely\"",
+      "override": null,
+      "trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.65,
+            "weight": 0.35,
+            "contribution": 0.2275,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.75,
+            "weight": 0.3,
+            "contribution": 0.225,
+            "source": "model-judgment"
+          },
+          {
+            "factor": "role_quality",
+            "value": 0.725,
+            "weight": 0,
+            "contribution": 0,
+            "source": "record"
+          }
+        ],
+        "vote_sum": 0.4525,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 0.9,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 0.9,
+        "arithmetic": "(0.65·0.35 + 0.75·0.3 + 0.725·0) × 1 × 0.9 = 0.407"
+      }
+    },
+    {
+      "role_id": "no-sponsor-control",
+      "company": "Example Corp (no H-1B record)",
+      "title": "Data Engineer",
+      "composite": 0.189,
+      "recommendation": "Skip",
+      "machine_recommendation": "Skip",
+      "reason": "composite 0.189 < 0.2 — time is better spent elsewhere",
+      "override": null,
+      "trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0,
+            "weight": 0.35,
+            "contribution": 0,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.7,
+            "weight": 0.3,
+            "contribution": 0.21,
+            "source": "model-judgment"
+          },
+          {
+            "factor": "role_quality",
+            "value": 0.787,
+            "weight": 0,
+            "contribution": 0,
+            "source": "record"
+          }
+        ],
+        "vote_sum": 0.21,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 0.9,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 0.9,
+        "arithmetic": "(0·0.35 + 0.7·0.3 + 0.787·0) × 1 × 0.9 = 0.189"
+      }
+    },
+    {
+      "role_id": "coursera-ghost",
+      "company": "Coursera Inc",
+      "title": "Data Engineer (expired posting)",
+      "composite": 0,
+      "recommendation": "Skip",
+      "machine_recommendation": "Skip",
+      "reason": "gated: liveness ≈ 0.000 (a closed gate zeroes the composite regardless of votes)",
+      "override": null,
+      "trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.9,
+            "weight": 0.35,
+            "contribution": 0.315,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.7,
+            "weight": 0.3,
+            "contribution": 0.21,
+            "source": "model-judgment"
+          },
+          {
+            "factor": "role_quality",
+            "value": 0.725,
+            "weight": 0,
+            "contribution": 0,
+            "source": "record"
+          }
+        ],
+        "vote_sum": 0.525,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 0,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 0.9,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 0,
+        "arithmetic": "(0.9·0.35 + 0.7·0.3 + 0.725·0) × 0 × 0.9 = 0.000"
+      }
+    }
+  ]
+}
