@@ -391,6 +391,3 @@ After the scorer printed **Apply (0.478)** for DataStax, the model can easily ex
 | `outputs/role-scores.md` | Human audit table |
 | `outputs/role-scores.json` | Machine output |
 
-## Appendix B
-
-Video goes to Canvas (link or file). Speaking notes stay on my laptop if I want; they are not required in the repo.
