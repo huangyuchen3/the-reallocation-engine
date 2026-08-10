@@ -150,3 +150,12 @@ private emails, or sensitive application notes.
 - **Rebuilt:** `node scripts/build-instructions.mjs --promote` → `AGENTS.md` + `CLAUDE.md` regenerated; `CLAUDE.md` now imports `@SNICKERDOODLE.md`.
 - **Untouched:** `data/` CSVs (real company names containing "mycroft") and prior RUN_LOG history (append-only).
 - **Result:** conformance + doctor green; no stale `MYCROFT.md` outside data/history.
+
+## 2026-08-09 — gate-behavior harness sample run (capstone)
+
+- **Recipe:** `gate-behavior` v0.1.0 (Ch.11 / Ch.16 gap: gates must not behave like votes)
+- **Inputs:** `data/examples/gate-behavior-roles.json` (public fixtures only)
+- **Commands:** `npm run score:gates` ; `npm run score:gates -- --break` ; `npm run doctor` ; `npm run verify`
+- **Outputs:** `output/gate-behavior/gate-behavior-{results,audit,break,break-audit}.*` ; docs under `docs/capstone/gate-behavior-*.md` ; recipe pair `recipes/gate-behavior.md` + `recipes/gate-behavior.card.md`
+- **Result:** correct-mode PASS (22/22 checks); ghost + impossible-timeline → Skip @ 0; break-mode BREAK-CAUGHT (dead posting wrongly Apply 0.6825 under gate-as-vote). Doctor privacy clean. Verify passed (pre-existing ignore-path warnings only).
+- **Open issues:** harness duplicates combiner arithmetic vs `role-scorer.mjs` (shared export not implemented yet); not wired to CI; does not perform live ATS liveness.
